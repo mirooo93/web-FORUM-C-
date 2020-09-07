@@ -1,0 +1,77 @@
+﻿@page
+@model WebForum.Pages.PostList.ShowModel
+
+
+
+<h2 class="text-info">Show Post</h2>
+<br/>
+
+<div class="border container" style="padding:30px;">
+
+    <input type="hidden" asp-for="Post.Id" />
+    <div class="form-group ">
+        <p><h1> <strong> @Model.Post.Title  </strong></h1></p>
+    </div>
+    <div class="form-group">
+        <p>  @Model.Post.Text </p>
+    </div>
+    <div class="form-group">
+        <p style="float: right"> <strong><i> @Model.Post.PostDataTime </i> </strong></p>
+    </div>
+    <br>
+    <input type="hidden" asp-for="Comment.Id" />
+
+    @if (Model.Comments == null)
+    {
+        <p>No comments available.</p>
+    }
+    else if (Model.Comments.Count() > 0)
+    {
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    <label asp-for="Comments.FirstOrDefault().Text"> <strong> Comments:</strong> </label>
+                </th>
+            </tr>
+            @foreach (var item in Model.Comments.OrderBy(x => x.CommentDate))
+            {
+                <tr>
+                    <td>
+                        @if (@item.User != null)
+                        {
+                            <p><strong> @Html.DisplayFor(m => item.User.UserName):</strong>  @Html.DisplayFor(m => item.Text) </p>
+                            <p><i><small>   @Html.DisplayFor(m => item.CommentDate) </small></i></p>
+                        }
+                        else if(@item.User == null)
+                        {
+                            <p><strong> Anonymouse: </strong>  @Html.DisplayFor(m => item.Text) </p>
+                            <p><i><small>  @Html.DisplayFor(m => item.CommentDate) </small></i></p>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+    <br>
+    <form method="post">
+        <div class="form-group row">
+            <div class="col-7">
+                <label asp-for="Comment.Id"> <strong> Comment: </strong></label>
+            </div>
+            <div class="col-6">
+                <textarea asp-for="Comment.Text" class="form-control" id="txtarea" rows="2"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-1">
+                <a asp-page="Index" class="btn btn-success form-control">Back</a>
+            </div>
+            <div class="col-2 offset-3">
+                <input type="submit" value="Done" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </form>
+
+

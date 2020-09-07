@@ -1,0 +1,44 @@
+﻿@page
+@model WebForum.Pages.PostList.SignUpModel
+
+
+<div class="container row p-0 m-0">
+    <div class="col-9">
+        <h2 class="text-info">Sign Up</h2>
+    </div>
+
+
+    <div class="col-9 border p-3 mt-3">
+        <form method="post" asp-page="signup">
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <td> Username </td>
+                    <td>
+                        <input asp-for="@Model.user.UserName " />
+                    </td>
+                </tr>
+                <tr class="table-secondary">
+                    <td> Email </td>
+                    <td>
+                        <input type="email" asp-for="@Model.user.Email " />
+                    </td>
+                </tr>
+                <tr class="table-secondary">
+                    <td> Password </td>
+                    <td>
+                        <input type="password" asp-for="@Model.user.Password " />
+                    </td>
+                </tr>
+                <tr class="table-secondary">
+                    <td>                      
+                        <a asp-page="Index" class="btn btn-success form-control col-4">Back</a>
+                    </td>
+                    <td>
+                        <input type="submit" value="Save" class="btn btn-primary btn-sm text-white col-3" />
+                    </td>   
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+

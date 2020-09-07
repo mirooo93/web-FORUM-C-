@@ -1,0 +1,51 @@
+﻿@page
+@model WebForum.Pages.PostList.EditModel
+
+
+<br />
+<h2 class="text-info">Edit Post</h2>
+<br />
+
+<div class="border container" style="padding:30px;">
+    <form method="post">
+        <input type="hidden" asp-for="Post.Id" />
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Post.Title"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="Post.Title" class="form-control" />
+            </div>
+            <span asp-validation-for="Post.Title" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <label asp-for="Post.Text"></label>
+            </div>
+            <div class="col-6">
+                <textarea asp-for="Post.Text"  class="form-control" id="txtarea" rows="4"></textarea>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+            </div>
+            <div class="col-6">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3 offset-3">
+                <a asp-page="Index" class="btn btn-success form-control">Back to List</a>
+            </div>
+            <div class="col-3">
+                <input type="submit" value="Save Change" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />   <!-- da mi ostane pokazivac na npr Title ako je prazan a requide je -->
+}

@@ -1,0 +1,27 @@
+﻿@page
+@model WebForum.Pages.PostList.HomeModel
+
+@using Microsoft.AspNetCore.Http
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Welcome </title>
+
+</head>
+<body>
+
+    Welcome @HttpContext.Session.GetString("username")
+   
+
+    
+    <br>
+    <a asp-page="index" asp-page-handler="logout"> Logout </a>
+    <a asp-page="home"> Change profile </a>
+
+
+
+</body>
+</html>

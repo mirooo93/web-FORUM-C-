@@ -1,0 +1,205 @@
+﻿@page
+@model WebForum.Pages.PostList.IndexModel
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Session
+
+<style>
+.button {background-color: #f44336;}
+</style>
+
+
+<div class="container row p-0 m-0">
+    <div class="col-9">
+        <h2 class="text-info"> Post List </h2>
+    </div>
+    <div class="form-group row">
+
+        @if (HttpContext.Session.GetString("username") != null)
+        {
+            <p> Logged as: <strong> @HttpContext.Session.GetString("username")   </strong></p>
+            <a asp-page="index" asp-page-handler="logout">  &nbsp; &nbsp;&nbsp; <button class="button" type="button" color="red"> LOGOUT </button> </a>
+        }
+        else
+        {
+            <p> Logged as: <strong> Anonymous </strong> </p>
+        }
+    </div>
+    <div class="col-3">
+        @if (HttpContext.Session.GetString("username") != null)
+        {
+            <a asp-page="Create" class="btn btn-info form-control text-white"> New Post </a>
+        }
+        else
+        {
+            <p> The unregistered user can only comment </p>
+        }
+    </div>
+
+    @if (HttpContext.Session.GetString("username") != null && string.Compare(HttpContext.Session.GetString("Role"), "Admin", true) == 0)
+    {
+        <div class="col-12 border p-3 mt-3">
+
+            <form method="post">
+
+                @if (Model.Posts == null)
+                {
+                    <p>No posts available.</p>
+                }
+                else if (Model.Posts.Count() > 0)
+                {
+                    <table class="table table-striped border">
+                        <tr class="table-secondary">
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().Title"> </label>
+                            </th>
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().User.UserName"> Author </label>
+                            </th>
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().PostDataTime"> Date </label>
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        @foreach (var item in Model.Posts)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.User.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.PostDataTime)
+                                </td>
+                                    <td>
+                                        <a asp-page="Show" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Show</a>
+                                        <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm text-white">Edit</a>
+                                        <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </form>
+        </div>
+    }
+
+
+   else if (HttpContext.Session.GetString("username") != null && string.Compare(HttpContext.Session.GetString("Role"), "User", true) == 0)
+    {
+        <div class="col-12 border p-3 mt-3">
+
+            <form method="post">
+
+                @if (Model.Posts == null)
+                {
+                    <p>No posts available.</p>
+                }
+                else if (Model.Posts.Count() > 0)
+                {
+                    <table class="table table-striped border">
+                        <tr class="table-secondary">
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().Title"> </label>
+                            </th>
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().User.UserName"> Author </label>
+                            </th>
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().PostDataTime"> Date </label>
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        @foreach (var item in Model.Posts)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.User.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.PostDataTime)
+                                </td>
+                                @if (string.Compare(item.User.UserName.ToString().ToUpper(), HttpContext.Session.GetString("username").ToUpper(), true) == 0)
+
+
+                                {
+                                    <td>
+                                        <a asp-page="Show" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Show</a>
+                                        <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm text-white">Edit</a>
+                                        <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a asp-page="Show" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Show</a>
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    </table>
+                }
+            </form>
+        </div>
+    }
+
+
+    else
+    {
+        <div class="col-12 border p-3 mt-3">
+            <form method="post">
+
+                @if (Model.Posts == null)
+                {
+                    <p>No posts available.</p>
+                }
+                else if (Model.Posts.Count() > 0)
+                {
+                    <table class="table table-striped border">
+                        <tr class="table-secondary">
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().Title"> </label>
+                            </th>
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().User.UserName"> Author </label>
+                            </th>
+                            <th>
+                                <label asp-for="Posts.FirstOrDefault().PostDataTime"> Date </label>
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        @foreach (var item in Model.Posts)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(m => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.User.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.PostDataTime)
+                                </td>
+                                <td>
+                                    <a asp-page="Show" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Show Post</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </form>
+        </div>
+    }
+</div>
+
