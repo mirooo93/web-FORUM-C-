@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebForum.Model;
+using WebForum.Repositories;
+using WebForum.Repositories.Contracts;
 
 namespace WebForum
 {
@@ -28,6 +30,7 @@ namespace WebForum
 
             services.AddSession();
             services.AddMvc(option => option.EnableEndpointRouting = false);  //auth
+            services.AddScoped<IWebForumRepository, WebForumRepository>();
             
             services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer (Configuration.GetConnectionString("ApplicationDbContext"))); //umisto DefoultConnection
             services.AddRazorPages().AddRazorRuntimeCompilation(); //prosirena i funkcija 
